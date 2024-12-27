@@ -1,0 +1,7 @@
+python3 -m venv venv
+source venv/bin/activate
+pip install Langchain_community
+pip install Langchain_ollama
+pip install fastembed
+pip install pdfplumber
+pip install chromadb
