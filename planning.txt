@@ -1,0 +1,29 @@
+**Initial Goal:** Create a personal AI assistant running locally using a downloaded LLM.
+
+**Key Decisions and Recommendations:**
+
+*   **LLM Choice:** `llama.cpp` is a good option for running LLMs efficiently on CPUs. Consider model size (number of parameters) based on your hardware and performance needs. Quantized models improve efficiency. Ollama simplifies model management.
+*   **LangChain:** Use LangChain to simplify interactions with LLMs and build more complex applications. It helps connect different LLMs and tools.
+*   **Project Structure:** Avoid a simple script that just takes prompts and prints responses. Implement conversation history, chains, and potentially agents for more advanced functionality.
+*   **Context Window Limitations:** LLMs have limited context windows. Implement strategies to handle this:
+    *   **Summarization (within session):** Summarize the conversation periodically to keep the prompt size manageable and improve efficiency *within a single conversation session*.
+    *   **Vector Database (across sessions/long-term memory):** Use a vector database (like Chroma) to store summaries of past sessions for cross-session access and long-term memory.
+*   **Context Retrieval Logic:** Use the LLM itself to determine whether external context (from the vector database) is needed. This is more flexible and intelligent than keyword matching.
+*   **User Interface:** A locally hosted web app (using Flask or Streamlit) is recommended over a full-fledged desktop application for ease of development, cross-platform compatibility, and simpler deployment.
+*   **Terminal Command Execution:** You can execute terminal commands indirectly from a web app using a local backend (Python's `subprocess` module), but prioritize security by sanitizing user inputs and restricting the scope of allowed commands.
+*   **External Information Sources:** Implement both:
+    *   **Web Search (using a search engine API and LangChain tools):** Focus on this *first* for immediate value and broader knowledge access.
+    *   **Local Files:** Add this *later* for personal information and offline functionality.
+*   **Project Uniqueness and Resume Worthiness:** Your project, with its focus on local execution, privacy, sophisticated context management, and combined information sources, is unique enough and definitely worth mentioning on your resume.
+*   **Project Timeline:** If learning everything from scratch, expect the project to take approximately 2-3 months of consistent effort.
+
+**Key Workflow (Combined Approach):**
+
+1.  **Within a Session:** Use summarization to manage context.
+2.  **Context Check (using LLM):** Before each prompt, use the LLM to determine if external context is needed.
+3.  **Vector Database Query (Only if needed):** If external context is needed, query the vector database for relevant summaries.
+4.  **Prompt Construction:** Construct the prompt for the LLM, including the current summary, retrieved summaries (if any), and the user's input.
+5.  **At the End of a Session:** Create a final summary and store it (with an embedding) in the vector database.
+6.  **At the Beginning of a New Session:** Query the vector database for relevant summaries to provide initial context.
+
+This combined approach provides a good balance of efficiency, functionality, and privacy for your personal AI assistant. This summary should help you easily revise our discussion. Let me know if you have any further questions.
